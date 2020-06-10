@@ -28,7 +28,7 @@ class LyridTest extends React.Component {
       moduleId: '',
       revisionId: '',
       functionId: '',
-      inputs: '{"InputSample":"Hello"}',
+      inputs: '{InputSample:"Hello"}',
       functionResponse: '',
     };
     this.lc = new Lyrid('RsliNzH8xQrdVIWJqOwd', 'bJq0YT7CRNKz4p0xh8rnQJB4VfYNwINEI3zlFJ67V25VGd8eXZ');
@@ -47,13 +47,14 @@ class LyridTest extends React.Component {
   getApps() {
     this.lc.getApps().then(data =>{
       console.log(data);
+      const len = data.length;
+      let options = Array(len).fill(null);
+      for (let i = 0; i < len; i++) {
+        options[i] = {value: data[i].id, label: data[i].name};
+      }
+      this.setState({apps: options});
     }, () =>{
-      const options = [
-        { value: 'chocolate', label: 'Chocolate' },
-        { value: 'strawberry', label: 'Strawberry' },
-        { value: 'vanilla', label: 'Vanilla' }
-      ];
-      this.setState({apps: options,});
+      console.log("Can't get list apps");
     });
   }
 
@@ -61,13 +62,14 @@ class LyridTest extends React.Component {
     const appId = event.value;
     this.lc.getModules(appId).then(data =>{
       console.log(data);
+      const len = data.length;
+      let options = Array(len).fill(null);
+      for (let i = 0; i < len; i++) {
+        options[i] = {value: data[i].id, label: data[i].name};
+      }
+      this.setState({modules: options, appId: appId});
     }, () =>{
-      const options = [
-        { value: 'chocolate', label: 'Chocolate' },
-        { value: 'strawberry', label: 'Strawberry' },
-        { value: 'vanilla', label: 'Vanilla' }
-      ];
-      this.setState({modules: options, appId: appId,});
+      console.log("Can't get list modules");
     });
   }
   
@@ -75,13 +77,14 @@ class LyridTest extends React.Component {
     const moduleId = event.value;
     this.lc.getRevisions(this.state.appId, moduleId).then(data =>{
       console.log(data);
+      const len = data.length;
+      let options = Array(len).fill(null);
+      for (let i = 0; i < len; i++) {
+        options[i] = {value: data[i].id, label: data[i].creationTime + " Is Active: " + data[i].isActive};
+      }
+      this.setState({revisions: options, moduleId: moduleId});
     }, () =>{
-      const options = [
-        { value: 'chocolate', label: 'Chocolate' },
-        { value: 'strawberry', label: 'Strawberry' },
-        { value: 'vanilla', label: 'Vanilla' }
-      ];
-      this.setState({revisions: options, moduleId: moduleId,});
+      console.log("Can't get list revision");
     });
   }
   
@@ -89,13 +92,14 @@ class LyridTest extends React.Component {
     const revisionsId = event.value;
     this.lc.getFunctions(this.state.appId, this.state.moduleId, revisionsId).then(data =>{
       console.log(data);
-    }, () =>{
-      const options = [
-        { value: 'chocolate', label: 'Chocolate' },
-        { value: 'strawberry', label: 'Strawberry' },
-        { value: 'vanilla', label: 'Vanilla' }
-      ];
+      const len = data.length;
+      let options = Array(len).fill(null);
+      for (let i = 0; i < len; i++) {
+        options[i] = {value: data[i].id, label: data[i].name};
+      }
       this.setState({functions: options, revisionId: revisionsId,});
+    }, () =>{
+      console.log("Can't get list function");
     });
   }
   
@@ -108,8 +112,9 @@ class LyridTest extends React.Component {
     const input = JSON.stringify(this.state.inputs);
     this.lc.execute(this.state.functionId, "LYR", input).then(data =>{
       console.log(data);
+      this.setState({functionResponse: JSON.stringify(data)});
     }, () =>{
-      this.setState({functionResponse: "response from function execute",});
+      console.log("Error on execute function");
     });
   }
   
