@@ -49,11 +49,23 @@ ol, ul {
   margin-left: 20px;
 }
 .lyrid-select {
-    margin-top: 10px;
-    margin-bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .execute-btn.ui.button {
-    float: right;
-    margin-top: 10px;
-    margin-bottom: 10px;
+  float: right;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.loader {
+  float: right;
+  margin-top: 15px;
+}
+.framework {
+  display: flex;
+  float: left;
+  margin-top: 20px;
+}
+.framework .field {
+  padding-right: 20px;
 }
